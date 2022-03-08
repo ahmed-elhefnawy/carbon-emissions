@@ -1,6 +1,8 @@
 ---
 title: <center> <h1>Change of CO~2~ emissions per capita across countries in the long run</h1> </center> <h1 style="font-size:40px;"></h1>
-output: html_document
+output: 
+   html_document:
+     keep_md: true
 editor_options: 
   chunk_output_type: console
 ---
