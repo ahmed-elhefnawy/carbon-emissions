@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>carbon</title>
+
+<script src="site_libs/header-attrs-2.12/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.21/datatables.js"></script>
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">carbon</h1>
+
+</div>
+
+
+<p><br />
+</p>
+<p>I wanted to see if the change of carbon dioxide emissions per capita,
+measured in metric tons, is significant in the long run. We expect it to
+be positive and distinguishable from zero. The dataset is <a
+href="https://data.worldbank.org/indicator/EN.ATM.CO2E.PC?view=chart">here</a></p>
+<p>First, we might calculate the change rate of the emissions for each
+country over the period 1960-2016.</p>
+<pre class="r"><code>#load the libraries we need.
+library(readxl)
+library(dplyr)
+library(data.table)
+library(EnvStats)
+library(DT)
+
+#import the dataset. I renamed the file as you can see.
+emission&lt;-read_xls(&quot;carbondioxideemmision.xls&quot;)
+
+#now let&#39;s see the first small part of the data
+emission[1:7,1:7] #alternatively, you can use head() function to review the first parts of the data.</code></pre>
+<pre><code># A tibble: 7 × 7
+  `Data Source`     `World Development Indicators` ...3  ...4  ...5  ...6  ...7 
+  &lt;chr&gt;             &lt;chr&gt;                          &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+1 Last Updated Date 44274                          &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
+2 &lt;NA&gt;              &lt;NA&gt;                           &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
+3 Country Name      Country Code                   Indi… Indi… 1960  1961  1962 
+4 Aruba             ABW                            CO2 … EN.A… 204.… 208.… 226.…
+5 Afghanistan       AFG                            CO2 … EN.A… 0.04… 0.05… 0.07…
+6 Angola            AGO                            CO2 … EN.A… 0.10… 0.08… 0.21…
+7 Albania           ALB                            CO2 … EN.A… 1.25… 1.37… 1.43…</code></pre>
+<pre class="r"><code>#remove the first two rows, since they contain nothing.
+emission&lt;-emission[-c(1:2),]
+
+#the first row contains the names of columns, yet the columns are not named properly. Change the columns names to be as the first row
+colnames(emission)&lt;-emission[1,]
+
+#after we renamed the columns by the first row, we don&#39;t need the first row anymore, so let&#39;s delete it.
+emission&lt;-emission[-c(1),]
+
+#Now let&#39;s see again:
+
+emission[1:5,]</code></pre>
+<pre><code># A tibble: 5 × 65
+  `Country Name` `Country Code` `Indicator Name`  `Indicator Code` `1960` `1961`
+  &lt;chr&gt;          &lt;chr&gt;          &lt;chr&gt;             &lt;chr&gt;            &lt;chr&gt;  &lt;chr&gt; 
+1 Aruba          ABW            CO2 emissions (m… EN.ATM.CO2E.PC   204.6… 208.8…
+2 Afghanistan    AFG            CO2 emissions (m… EN.ATM.CO2E.PC   0.046… 0.053…
+3 Angola         AGO            CO2 emissions (m… EN.ATM.CO2E.PC   0.100… 0.082…
+4 Albania        ALB            CO2 emissions (m… EN.ATM.CO2E.PC   1.258… 1.374…
+5 Andorra        AND            CO2 emissions (m… EN.ATM.CO2E.PC   &lt;NA&gt;   &lt;NA&gt;  
+# … with 59 more variables: `1962` &lt;chr&gt;, `1963` &lt;chr&gt;, `1964` &lt;chr&gt;,
+#   `1965` &lt;chr&gt;, `1966` &lt;chr&gt;, `1967` &lt;chr&gt;, `1968` &lt;chr&gt;, `1969` &lt;chr&gt;,
+#   `1970` &lt;chr&gt;, `1971` &lt;chr&gt;, `1972` &lt;chr&gt;, `1973` &lt;chr&gt;, `1974` &lt;chr&gt;,
+#   `1975` &lt;chr&gt;, `1976` &lt;chr&gt;, `1977` &lt;chr&gt;, `1978` &lt;chr&gt;, `1979` &lt;chr&gt;,
+#   `1980` &lt;chr&gt;, `1981` &lt;chr&gt;, `1982` &lt;chr&gt;, `1983` &lt;chr&gt;, `1984` &lt;chr&gt;,
+#   `1985` &lt;chr&gt;, `1986` &lt;chr&gt;, `1987` &lt;chr&gt;, `1988` &lt;chr&gt;, `1989` &lt;chr&gt;,
+#   `1990` &lt;chr&gt;, `1991` &lt;chr&gt;, `1992` &lt;chr&gt;, `1993` &lt;chr&gt;, `1994` &lt;chr&gt;, …</code></pre>
+<pre class="r"><code>#since we have &quot;years&quot; as variables (columns), we can transpose the data so that countries will be variables and years as rows. I&#39;ll tell you later why we did that.
+emission&lt;-as.data.frame(t(emission))
+
+#again column names are not properly named, so we change them as before.
+colnames(emission)&lt;-emission[1,]
+
+#the first four rows are no use for us, we can remove them. The first row contains country names, which we had already used to name our columns, the remaining rows contain country code, indicator name, and indicator code, respectively, and we&#39;ll not use any of them.
+emission&lt;-emission[-c(1:4),]
+
+#now let&#39;s have a look
+emission[1:7,1:7]</code></pre>
+<pre><code>                  Aruba          Afghanistan               Angola
+1960 204.62037224917452 0.046056712629903414   0.1008353356494021
+1961 208.82281106822035 0.053588835050455808 0.082203796747050334
+1962 226.11807914628724 0.073720830832381873  0.21053147709234077
+1963 214.80037040303375 0.074160724829865854  0.20273730345395635
+1964 207.61577710758871 0.086173614368552767  0.21356034931902876
+1965 185.20395746164576  0.10128491249779034  0.20589092585307864
+1966 172.11995148574894  0.10739888092545179  0.26894143686775823
+                Albania Andorra          Arab World United Arab Emirates
+1960 1.2581949278965689    &lt;NA&gt; 0.60744755675365358  0.11903525287281698
+1961 1.3741860465116278    &lt;NA&gt; 0.66063794460729808  0.10914123576332393
+1962 1.4399559637916719    &lt;NA&gt; 0.72494431853622876  0.16353306337965359
+1963 1.1816811441597486    &lt;NA&gt; 0.85056679990052364  0.17583313354111724
+1964 1.1117419596667282    &lt;NA&gt; 0.96947620360177611  0.13282478140235732
+1965 1.1660990427345477    &lt;NA&gt;  1.1352713004209469  0.14681996836984593
+1966 1.3330554645866206    &lt;NA&gt;  1.2482565638723149  0.16045531829774465</code></pre>
+<pre class="r"><code>#now before playing with these numbers let&#39;s see if R recognize them as numbers. Let&#39;s take the first country as an example.
+class(emission$Aruba)</code></pre>
+<pre><code>[1] &quot;character&quot;</code></pre>
+<pre class="r"><code>#R doesn&#39;t recognize the values as numbers. So we can use lapply function to declare all of them as numbers to R. Now here comes why we transposed the data before. The idea is to not have a country column, so I&#39;d declare all columns as numbers to R without being concerned about a character column (the country column) 
+emission[]&lt;-lapply(emission,function(x) as.numeric(as.character(x)))
+
+#then let&#39;s remove the countries that we don&#39;t have any observation about it.
+emission&lt;-emission[, colSums(is.na(emission))&lt;nrow(emission)]
+
+#the &quot;year&quot; is not recognized as a column by R yet. Let&#39;s declare it.
+setDT(emission,keep.rownames = &quot;year&quot;)
+
+#let&#39;s have a quick look
+emission[1:5,1:5]</code></pre>
+<pre><code>   year    Aruba Afghanistan    Angola  Albania
+1: 1960 204.6204  0.04605671 0.1008353 1.258195
+2: 1961 208.8228  0.05358884 0.0822038 1.374186
+3: 1962 226.1181  0.07372083 0.2105315 1.439956
+4: 1963 214.8004  0.07416072 0.2027373 1.181681
+5: 1964 207.6158  0.08617361 0.2135603 1.111742</code></pre>
+<pre class="r"><code>#let&#39;s transform our data to long format so that we&#39;d have the countries as a column altogether, resulting in a panel data.
+emission&lt;-melt(emission, id.vars=&quot;year&quot;,variable.name = &quot;country&quot;)
+
+head(emission)</code></pre>
+<pre><code>   year country    value
+1: 1960   Aruba 204.6204
+2: 1961   Aruba 208.8228
+3: 1962   Aruba 226.1181
+4: 1963   Aruba 214.8004
+5: 1964   Aruba 207.6158
+6: 1965   Aruba 185.2040</code></pre>
+<pre class="r"><code>#filter our data so that we would have only the observations for 1960 and 2016.
+emission_6016&lt;-dplyr::filter(emission,year %in% c(1960,2016))
+
+#let&#39;s calculate the change rate.
+emission_6016&lt;- emission_6016 %&gt;%
+    group_by(country) %&gt;%
+    mutate(change=(((value/lag(value))^(1/(2016-1960)))-1)*100)
+
+#let&#39;s have a look.
+head(emission_6016)</code></pre>
+<pre><code># A tibble: 6 × 4
+# Groups:   country [3]
+  year  country        value change
+  &lt;chr&gt; &lt;fct&gt;          &lt;dbl&gt;  &lt;dbl&gt;
+1 1960  Aruba       205.      NA   
+2 2016  Aruba         8.43    -5.54
+3 1960  Afghanistan   0.0461  NA   
+4 2016  Afghanistan   0.245    3.03
+5 1960  Angola        0.101   NA   
+6 2016  Angola        1.20     4.53</code></pre>
+<pre class="r"><code>#we only need the &quot;country&quot; and its change rate, so we can remove the other two columns.
+emission_6016&lt;-emission_6016[,-c(1,3)]
+
+#remove the missing values, since it&#39;s only one value for each country.
+emission_6016&lt;-na.omit(emission_6016)
+
+#let&#39;s have another look.
+head(emission_6016)</code></pre>
+<pre><code># A tibble: 6 × 2
+# Groups:   country [6]
+  country              change
+  &lt;fct&gt;                 &lt;dbl&gt;
+1 Aruba                -5.54 
+2 Afghanistan           3.03 
+3 Angola                4.53 
+4 Albania               0.404
+5 Arab World            3.73 
+6 United Arab Emirates  9.77 </code></pre>
+<p>In addition, let’s consider the average emissions per capita for each
+country over the same period, and the coefficient of variation as
+well.</p>
+<pre class="r"><code>#turning back to our original data, calculate the mean and the coefficient of variation by country and then merge it with the subset with the change rate that we created it before.
+emission&lt;-inner_join(emission_6016,emission %&gt;%
+             group_by(country) %&gt;%
+             summarise(mean=mean(value,na.rm = T), cv=cv(value,na.rm=T)))</code></pre>
+<pre><code>Joining, by = &quot;country&quot;</code></pre>
+<pre class="r"><code>#round our variables to the fourth digit
+emission$change&lt;-round(emission$change,4)
+emission$mean&lt;-round(emission$mean,4)
+emission$cv&lt;-round(emission$cv,4)
+
+head(emission)</code></pre>
+<pre><code># A tibble: 6 × 4
+# Groups:   country [6]
+  country              change    mean    cv
+  &lt;fct&gt;                 &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
+1 Aruba                -5.54  105.    0.996
+2 Afghanistan           3.03    0.148 0.603
+3 Angola                4.53    0.652 0.558
+4 Albania               0.404   1.65  0.393
+5 Arab World            3.73    3.03  0.396
+6 United Arab Emirates  9.77   31.0   0.681</code></pre>
+<pre class="r"><code>#since the world bank includes regions among countries, I created a vector manually to contain all regions that are not individual countries, since including them might bias our calculations.
+regions&lt;-c(&quot;Arab World&quot;,&quot;Central Europe and the Baltics&quot;,&quot;Caribbean small states&quot;,&quot;East Asia &amp; Pacific (excluding high income)&quot;,&quot;Early-demographic dividend&quot;,&quot;East Asia &amp; Pacific&quot;,&quot;Europe &amp; Central Asia (excluding high income)&quot;,&quot;Europe &amp; Central Asia&quot;,&quot;European Union&quot;,&quot;Fragile and conflict affected situations&quot;,&quot;High income&quot;,&quot;Heavily indebted poor countries (HIPC)&quot;,&quot;IBRD only&quot;, &quot;IDA &amp; IBRD total&quot;,&quot;IDA total&quot;,&quot;IDA blend&quot;,&quot;IDA only&quot;,&quot;Latin America &amp; Caribbean (excluding high income)&quot;,&quot;Latin America &amp; Caribbean&quot;,&quot;Least developed countries: UN classification&quot;,&quot;Low income&quot;,&quot;Lower middle income&quot;,&quot;Low &amp; middle income&quot;,&quot;Late-demographic dividend&quot;,&quot;Middle East &amp; North Africa&quot;,&quot;Middle income&quot;,&quot;Middle East &amp; North Africa (excluding high income)&quot;,&quot;North America&quot;,&quot;OECD members&quot;,&quot;Pre-demographic dividend&quot;,&quot;Pacific island small states&quot;,&quot;Other small states&quot;,&quot;Post-demographic dividend&quot;,&quot;South Asia&quot;,&quot;Sub-Saharan Africa (excluding high income)&quot;,&quot;Sub-Saharan Africa&quot;,&quot;Small states&quot;,&quot;East Asia &amp; Pacific (IDA &amp; IBRD countries)&quot;,&quot;Europe &amp; Central Asia (IDA &amp; IBRD countries)&quot;,&quot;Latin America &amp; the Caribbean (IDA &amp; IBRD countries)&quot;,&quot;Middle East &amp; North Africa (IDA &amp; IBRD countries)&quot;,&quot;South Asia (IDA &amp; IBRD)&quot;,&quot;Sub-Saharan Africa (IDA &amp; IBRD countries)&quot;,&quot;Upper middle income&quot;,&quot;World&quot;)
+
+#quickly create a new subset to include these regions only, and then filter our data to include only the places that are not in the subset created. there are many ways to do that, I just chose what came to my mind. 
+emission2&lt;-filter(emission,country%in%regions)
+emission&lt;-emission[!(emission$country %in% emission2$country),]
+
+#let&#39;s create a table to show our data.
+datatable(emission, colnames = c(&quot;country&quot;,&quot;percentage change of emissions per capita \n (1960-2016)&quot;,&quot;Average of emissions per capita (in metric tons) \n (1960-2016)&quot;,&quot;coefficent of variation&quot;))</code></pre>
+<div id="htmlwidget-f9cc27f253e6bcf8587f" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f9cc27f253e6bcf8587f">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118","119","120","121","122","123","124","125","126","127","128","129","130","131","132","133","134","135","136","137","138","139","140","141","142","143","144","145","146","147","148","149","150","151","152","153"],["Aruba","Afghanistan","Angola","Albania","United Arab Emirates","Argentina","Antigua and Barbuda","Australia","Austria","Belgium","Benin","Burkina Faso","Bangladesh","Bulgaria","Bahrain","Bahamas, The","Belize","Bermuda","Bolivia","Brazil","Barbados","Brunei Darussalam","Central African Republic","Canada","Switzerland","Chile","China","Cote d'Ivoire","Cameroon","Congo, Dem. Rep.","Congo, Rep.","Colombia","Comoros","Cabo Verde","Costa Rica","Cuba","Cayman Islands","Cyprus","Djibouti","Dominica","Denmark","Dominican Republic","Algeria","Ecuador","Egypt, Arab Rep.","Spain","Ethiopia","Finland","Fiji","Faroe Islands","Gabon","United Kingdom","Ghana","Gibraltar","Guinea","Gambia, The","Guinea-Bissau","Equatorial Guinea","Greece","Grenada","Greenland","Guatemala","Guyana","Hong Kong SAR, China","Honduras","Haiti","Hungary","Indonesia","India","Ireland","Iran, Islamic Rep.","Iraq","Iceland","Israel","Jamaica","Jordan","Japan","Kenya","Cambodia","St. Kitts and Nevis","Korea, Rep.","Kuwait","Lao PDR","Lebanon","Liberia","Libya","St. Lucia","Sri Lanka","Luxembourg","Macao SAR, China","Morocco","Madagascar","Mexico","Mali","Malta","Myanmar","Mongolia","Mozambique","Mauritania","Mauritius","Malaysia","New Caledonia","Niger","Nigeria","Nicaragua","Netherlands","Norway","Nepal","New Zealand","Pakistan","Panama","Peru","Philippines","Palau","Papua New Guinea","Poland","Korea, Dem. People’s Rep.","Portugal","Paraguay","French Polynesia","Qatar","Romania","Russian Federation","Rwanda","Saudi Arabia","Senegal","Singapore","Solomon Islands","Sierra Leone","El Salvador","Somalia","Sao Tome and Principe","Suriname","Sweden","Eswatini","Syrian Arab Republic","Chad","Togo","Thailand","Tonga","Trinidad and Tobago","Tunisia","Turkey","Tanzania","Uganda","Uruguay","United States","St. Vincent and the Grenadines","Venezuela, RB","Vietnam","Samoa","Yemen, Rep.","South Africa"],[-5.5368,3.0304,4.5262,0.4043,9.7721,1.1886,3.9396,1.0656,0.8521,-0.2688,3.9968,5.506,1.0641,1.3031,3.3329,0.4139,2.1146,1.77,3.5695,2.2362,3.2464,2.7099,0.1976,0.6039,0.2084,1.8823,3.2912,2.0286,3.4302,-3.1304,1.9808,1.2335,2.6827,4.0765,2.6956,0.4705,3.3246,2.3419,0.5807,4.7911,-0.2828,3.7084,3.4383,3.3786,2.5915,2.1367,4.008,1.6115,2.8209,3.7182,4.2078,-1.1675,1.7584,4.0501,1.3942,2.8882,3.1013,7.383,2.9637,4.1832,0.4944,2.1281,1.7739,3.3089,2.2637,2.3702,0.0371,3.9661,3.4802,1.2511,2.8682,2.754,-0.2073,1.6439,2.061,2.1522,2.2904,0.3576,4.9967,5.6303,5.8497,-0.2684,7.832,1.7092,1.2889,5.1079,4.8355,2.8471,-1.5332,4.38,3.2223,1.2467,1.5453,3.7117,1.87,2.4186,3.2899,0.1506,4.9865,4.633,5.3481,1.021,4.4097,3.9122,1.9556,0.8054,1.3696,6.8947,0.7329,2.0641,1.9902,1.5036,2.3726,3.875,4.4477,0.2783,-1.1072,2.9462,3.4923,3.2425,4.2834,0.3418,-0.0123,1.7467,6.0276,1.8644,3.7619,1.9302,-1.2901,2.9284,0.7106,2.2521,1.2875,-0.7318,4.3015,1.5326,2.4157,4.1146,6.2834,3.5631,4.2812,3.3723,3.6945,1.8145,1.4977,0.2672,-0.0564,4.929,-0.4319,4.4265,4.0731,6.575,0.7035],[104.7306,0.148,0.6517,1.6517,31.0151,3.6885,5.2642,14.5646,7.1936,11.1275,0.2176,0.0714,0.2413,7.0697,20.4557,12.6245,1.3571,7.5946,0.9748,1.5104,3.2366,20.913,0.0677,15.7752,5.6816,2.8843,2.7341,0.4556,0.2387,0.0931,0.464,1.5424,0.1476,0.4463,1.1229,2.5115,7.8378,5.0497,0.6923,1.0261,9.983,1.4625,2.5084,1.5853,1.4477,5.2077,0.0574,9.5432,1.0979,10.4409,4.4558,9.7055,0.3101,6.6509,0.1939,0.1829,0.1454,2.4384,5.7733,1.1918,8.8976,0.6261,1.9819,4.2088,0.651,0.1444,6.2494,0.943,0.7597,7.9648,4.6137,3.151,7.2322,6.9423,2.9976,2.3331,7.916,0.2842,0.1447,2.2936,5.8387,28.1521,0.2363,2.9562,0.4251,7.751,1.3324,0.3959,27.2603,2.2823,0.9646,0.1132,3.4244,0.0671,4.271,0.1793,4.1,0.18,0.4846,1.4815,3.7809,12.5874,0.0711,0.5706,0.6396,10.4779,8.1035,0.0811,6.717,0.5982,1.7285,1.2275,0.7503,11.0785,0.4751,9.3094,4.492,3.6178,0.5356,2.1754,53.6178,5.7855,16.7677,0.061,12.6174,0.4258,9.6861,0.3566,0.1521,0.6683,0.0754,0.3712,4.1732,7.1811,0.826,2.2426,0.051,0.2191,1.814,0.6759,17.1814,1.5716,2.498,0.1244,0.0786,1.7782,19.0121,0.9817,6.0106,0.6517,0.6365,0.4488,8.1874],[0.9957,0.6027,0.5584,0.3928,0.6809,0.1667,0.5957,0.1859,0.1503,0.1328,0.7736,0.6308,0.5605,0.2531,0.3546,0.9974,0.2748,0.3053,0.4629,0.3317,0.4399,0.7876,0.2268,0.1164,0.1387,0.3427,0.7767,0.355,0.7174,0.5691,0.4634,0.1478,0.3603,0.7892,0.3784,0.2044,0.4392,0.3909,0.2644,0.7757,0.1931,0.4745,0.4244,0.4666,0.456,0.3283,0.4595,0.2471,0.3544,0.3802,0.6093,0.1516,0.3348,0.7819,0.1322,0.3307,0.3002,1.523,0.4145,0.6775,0.2525,0.3285,0.2245,0.4389,0.391,0.438,0.1908,0.6143,0.5755,0.2305,0.4323,0.312,0.0998,0.282,0.2853,0.3937,0.2535,0.1762,0.9601,0.7181,0.6661,0.453,1.633,0.3086,0.7731,0.4346,0.5781,0.5561,0.272,0.5034,0.4955,0.2823,0.2733,0.5997,0.4617,0.4061,0.6209,0.5763,0.6599,0.7057,0.6885,0.3056,0.4863,0.4541,0.243,0.1408,0.249,0.9419,0.1875,0.3733,0.3128,0.2305,0.254,0.2685,0.4368,0.1873,0.5255,0.4682,0.4522,0.3394,0.3925,0.3468,0.3554,0.4857,0.4304,0.3271,0.4664,0.3393,0.4071,0.4617,0.4613,0.3869,0.2841,0.277,0.3758,0.4145,0.3722,0.4703,0.7679,0.5748,0.5816,0.4326,0.4709,0.3628,0.4399,0.1969,0.0924,0.7709,0.1112,0.8192,0.4885,0.8496,0.1465]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>country<\/th>\n      <th>percentage change of emissions per capita \n (1960-2016)<\/th>\n      <th>Average of emissions per capita (in metric tons) \n (1960-2016)<\/th>\n      <th>coefficent of variation<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>We can see which country has the highest and the lowest emission
+change in the long run.</p>
+<pre class="r"><code>&gt; #country with the minimum emission change 
+&gt; emission[which.min(emission$change),]</code></pre>
+<pre><code># A tibble: 1 × 4
+# Groups:   country [1]
+  country change  mean    cv
+  &lt;fct&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 Aruba    -5.54  105. 0.996</code></pre>
+<pre class="r"><code>&gt; #country with the maximum emission change
+&gt; emission[which.max(emission$change),]</code></pre>
+<pre><code># A tibble: 1 × 4
+# Groups:   country [1]
+  country              change  mean    cv
+  &lt;fct&gt;                 &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 United Arab Emirates   9.77  31.0 0.681</code></pre>
+<div
+id="probability-distribution-of-the-change-rate-of-co2-emissions-per-capita-in-the-long-run"
+class="section level2">
+<h2><strong>Probability distribution of the change rate of
+CO<sub>2</sub> emissions per capita in the long run:</strong></h2>
+<ul>
+<li>Let’s have a closer look to our variable distribution:</li>
+</ul>
+<pre class="r"><code>#plot the empirical probability density function.
+epdfPlot(emission$change,xlab=expression(&#39;Change of CO&#39;[2] ~ &#39;emissions per capita in the long run&#39;),main=expression(&#39;Empirical PDF of the percentage change of CO&#39;[2]~ &#39;emissions per capita in the long run&#39;),cex.main=0.95)
+abline(v=mean(emission$change),col=&quot;darkgray&quot;)</code></pre>
+<p><img src="carbon-emissions_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>The dark gray vertical line represents the mean in our data, as you
+might expected from the code.</p>
+<pre class="r"><code>#plot of the empirical cumulative distribution function.
+ecdfPlot(emission$change, xlab =expression(&#39;Order Statistics for the change rate of CO&#39;[2]~&#39;emissions per capita&#39;),main=expression(&#39;Empirical CDF of the percentage change of CO&#39;[2]~ &#39;emissions per capita in the long run&#39;),cex.main=0.95)</code></pre>
+<p><img src="carbon-emissions_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+We can see that the probability that the emission change rate in the
+long run is less than or equal to zero is almost <span
+class="math inline">\(0\)</span>, supporting our hypothesis that the
+change rate is positive.
+<p>Simply, let <span class="math inline">\(X\)</span> be the change of
+CO<sub>2</sub> emissions per capita, then <span
+class="math inline">\(P(X \le 0) \approx 0\)</span>, but we didn’t check
+yet for its significance from zero, which comes later.</p>
+<p>Now, let’s “boxplot” it!</p>
+<pre class="r"><code>boxplot(emission$change,horizontal=T,xlab=expression(&#39;Change of CO&#39;[2] ~ &#39;emissions per capita in the long run&#39;),varwidth=T)
+abline(v=0)</code></pre>
+<p><img src="carbon-emissions_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>It doesn’t seem close to zero but it might not be significant, so
+let’s test if the change in the long run across countries is significant
+from zero.</p>
+<pre class="r"><code>#using t-test.
+t.test(emission$change)</code></pre>
+<pre><code>
+    One Sample t-test
+
+data:  emission$change
+t = 14.803, df = 152, p-value &lt; 2.2e-16
+alternative hypothesis: true mean is not equal to 0
+95 percent confidence interval:
+ 2.149774 2.811979
+sample estimates:
+mean of x 
+ 2.480876 </code></pre>
+The p-value is extremely small almost equal to <span
+class="math inline">\(0\)</span>, thus the change in the long run is
+significant from zero at all levels.
+<p>In other words, the carbon dioxide emissions per capita, in metric
+tons, across countries over the period <span
+class="math inline">\(1960-2016\)</span> increased significantly by more
+than <span class="math inline">\(2\%\)</span>, on average.</p>
+<p>We can play more with our data, but I’ll leave that to you, which is
+why I inserted the interactive table.</p>
+<p>Have fun!</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
